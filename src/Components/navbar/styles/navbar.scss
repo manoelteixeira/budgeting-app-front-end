@@ -1,0 +1,31 @@
+@import "../../../styles/_colors.scss";
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: $green;
+
+  a {
+    text-decoration: none;
+    color: $gray;
+  }
+
+  &__title {
+    font-size: 40px;
+    font-weight: bolder;
+  }
+
+  &__new {
+    border: 2px solid $gray;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+
+    &:hover {
+      color: aquamarine;
+      background-color: $gray;
+    }
+  }
+}
