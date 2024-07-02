@@ -30,22 +30,22 @@ export default function Home() {
         Total:
         <span>
           {" "}
-          ${transactions.reduce((acc, item) => acc + item.amount, 0)}
+          ${transactions.reduce((acc, item) => acc + item.amount, 0).toFixed(2)}
         </span>
       </h2>
       <table className="home__table">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>From</th>
-            <th>Amount</th>
+            <th scope="col">Date</th>
+            <th scope="col">From</th>
+            <th scope="col">Amount</th>
           </tr>
         </thead>
         <tbody>
           {transactions.map((item) => {
             return (
               <tr key={item.id}>
-                <td>{new Date(item.date).toLocaleDateString()}</td>
+                <th scope="row">{new Date(item.date).toDateString()}</th>
                 <td>
                   <Link to={`/transactions/${item.id}`}>{item.from}</Link>
                 </td>

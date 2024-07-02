@@ -1,1 +1,7 @@
 // src/styles/app.scss
+
+.app {
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+}

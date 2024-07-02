@@ -1,2 +1,86 @@
 // src/Pages/show/styles/show.scss
 @import "../../../styles/colors";
+
+.show {
+  display: grid;
+  place-items: center;
+  justify-items: center;
+  grid-template-columns: 1fr;
+  row-gap: 20px;
+  padding: 10px;
+
+  &__details {
+    width: 400px;
+    padding: 20px;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 20px;
+
+    &-item {
+      padding: 10px 0 0 10px;
+
+      span {
+        text-transform: capitalize;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    a {
+      text-decoration: none;
+    }
+
+    &-back {
+      padding: 5px 20px;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 1.5em;
+      border: 2px solid $green;
+      background-color: white;
+      color: $green;
+      cursor: pointer;
+
+      &:hover {
+        color: white;
+        background-color: $green;
+      }
+    }
+
+    &-edit {
+      padding: 5px 20px;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 1.5em;
+      border: 2px solid $yellow;
+      background-color: white;
+      color: $yellow;
+      cursor: pointer;
+
+      &:hover {
+        color: white;
+        background-color: $yellow;
+      }
+    }
+
+    &-delete {
+      padding: 5px 20px;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 1.5em;
+      border: 2px solid $red;
+      background-color: white;
+      color: $red;
+      cursor: pointer;
+
+      &:hover {
+        color: white;
+        background-color: $red;
+      }
+    }
+  }
+}
