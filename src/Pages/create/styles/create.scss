@@ -1,2 +1,70 @@
 // src/Pages/new/styles/new.scss
 @import "../../../styles/colors";
+
+.create {
+  width: 100%;
+  padding: 50px;
+  display: grid;
+  justify-items: center;
+  place-items: center;
+
+  &__title {
+    color: $gray;
+    padding-top: 20px;
+    padding-bottom: 60px;
+  }
+
+  &__form {
+    fieldset {
+      display: grid;
+      padding: 20px;
+      border: 2px solid $gray;
+      border-radius: 20px;
+    }
+
+    legend {
+      margin-left: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      color: $gray;
+    }
+
+    &-field {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px 10px 10px;
+
+      label {
+        font-size: 18px;
+        font-weight: bold;
+        padding-right: 10px;
+      }
+
+      input {
+        width: 400px;
+        padding: 5px;
+        border-radius: 5px;
+        border: 2px solid $gray;
+        height: $green;
+      }
+    }
+
+    &-submit {
+      justify-self: center;
+      margin-top: 10px;
+      padding: 5px 20px;
+      border: 2px solid $green;
+      border-radius: 1.5em;
+      background-color: white;
+      color: $green;
+      font-size: 18px;
+      font-weight: bold;
+
+      &:hover {
+        background-color: $green;
+        color: white;
+      }
+    }
+  }
+}

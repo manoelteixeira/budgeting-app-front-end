@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function Create() {
   const API = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
-  const [newTransaction, setNewTransactio] = useState({
+  const [newTransaction, setNewTransaction] = useState({
     item_name: "",
     amount: 0,
     date: "",
@@ -16,12 +16,43 @@ export default function Create() {
     category: "",
   });
 
-  const handleSubmit = (event) => {};
-  const handleChange = (event) => {};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const amount = Number(newTransaction.amount);
+    const date = `${newTransaction.date} ${new Date().toLocaleTimeString()}`;
+    const options = {
+      method: "POST",
+      body: JSON.stringify({
+        ...newTransaction,
+        amount: amount,
+        date: date,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    fetch(API, options)
+      .then((res) => res.json())
+      .then((res) => {
+        alert(`New transaction added!\nTransaction ID: #${res.id}`);
+        navigate("/transactions");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const handleChange = (event) => {
+    setNewTransaction((prevState) => {
+      return { ...newTransaction, [event.target.name]: event.target.value };
+    });
+  };
 
   return (
     <div className="create">
-      <form action="" className="create__form">
+      <h1 className="create__title">Add New Transition</h1>
+      <form action="" className="create__form" onSubmit={handleSubmit}>
         <fieldset>
           <legend>New Transactions</legend>
           <div className="create__form-field">
@@ -59,7 +90,7 @@ export default function Create() {
           <div className="create__form-field">
             <label htmlFor="amount">Amount</label>
             <input
-              type="numcuber"
+              type="numuber"
               placeholder="Amount"
               name="amount"
               value={newTransaction.amount}
