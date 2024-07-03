@@ -9,14 +9,23 @@ export default function Show() {
   const API = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const [transaction, setTransaction] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetch(`${API}/${id}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res;
+        }
+      })
       .then((res) => {
         setTransaction({ ...res, date: new Date(res.date) });
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        err.json().then((err) => setError(err.error));
+      });
   }, [id]);
 
   const handleDelete = () => {
@@ -32,48 +41,56 @@ export default function Show() {
       .catch((err) => console.error(err));
   };
 
-  if (!transaction)
+  if (error) {
     return (
       <div className="show">
-        <h1>Loading...</h1>
+        <h1 className="show__message-error">{error}</h1>
       </div>
     );
+  }
+  if (!transaction) {
+    return (
+      <div className="show">
+        <h1 className="show__message">Loading...</h1>
+      </div>
+    );
+  } else {
+    return (
+      <div className="show">
+        <h1 className="show__title">Transaction</h1>
+        <div className="show__details">
+          <div className="show__details-item">
+            Item: <span>{transaction.item_name}</span>
+          </div>
+          <div className="show__details-item">
+            From: <span>{transaction.from}</span>
+          </div>
+          <div className="show__details-item">
+            Category: <span>{transaction.category}</span>
+          </div>
+          <div className="show__details-item">
+            Amount: <span>${transaction.amount}</span>
+          </div>
+          <div className="show__details-item">
+            Date: <span>{transaction.date.toLocaleDateString()}</span>
+          </div>
+          <div className="show__details-item">
+            Time: <span>{transaction.date.toLocaleTimeString()}</span>
+          </div>
+        </div>
 
-  return (
-    <div className="show">
-      <h1 className="show__title">Transaction</h1>
-      <div className="show__details">
-        <div className="show__details-item">
-          Item: <span>{transaction.item_name}</span>
-        </div>
-        <div className="show__details-item">
-          From: <span>{transaction.from}</span>
-        </div>
-        <div className="show__details-item">
-          Category: <span>{transaction.category}</span>
-        </div>
-        <div className="show__details-item">
-          Amount: <span>${transaction.amount}</span>
-        </div>
-        <div className="show__details-item">
-          Date: <span>{transaction.date.toLocaleDateString()}</span>
-        </div>
-        <div className="show__details-item">
-          Time: <span>{transaction.date.toLocaleTimeString()}</span>
+        <div className="show__controls">
+          <Link to="/transactions">
+            <div className="show__controls-back">Back</div>
+          </Link>
+          <Link to={`/transactions/${id}/edit`}>
+            <div className="show__controls-edit">Edit</div>
+          </Link>
+          <div className="show__controls-delete" onClick={handleDelete}>
+            Delete
+          </div>
         </div>
       </div>
-
-      <div className="show__controls">
-        <Link to="/transactions">
-          <div className="show__controls-back">Back</div>
-        </Link>
-        <Link to={`/transactions/${id}/edit`}>
-          <div className="show__controls-edit">Edit</div>
-        </Link>
-        <div className="show__controls-delete" onClick={handleDelete}>
-          Delete
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
 }

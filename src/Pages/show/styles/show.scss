@@ -7,7 +7,18 @@
   justify-items: center;
   grid-template-columns: 1fr;
   row-gap: 20px;
+  margin-top: 50px;
   padding: 10px;
+
+  &__message {
+    padding-top: 15%;
+    font-size: 42px;
+
+    &-error {
+      padding-top: 15%;
+      color: red;
+    }
+  }
 
   &__details {
     width: 400px;

@@ -11,21 +11,19 @@ export default function Create() {
   const [newTransaction, setNewTransaction] = useState({
     item_name: "",
     amount: 0,
-    date: "",
+    date: new Date().toISOString().slice(0, -5),
     from: "",
     category: "",
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const amount = Number(newTransaction.amount);
-    const date = `${newTransaction.date} ${new Date().toLocaleTimeString()}`;
+
     const options = {
       method: "POST",
       body: JSON.stringify({
         ...newTransaction,
-        amount: amount,
-        date: date,
+        amount: Number(newTransaction.amount),
       }),
       headers: {
         "Content-Type": "application/json",
@@ -33,19 +31,27 @@ export default function Create() {
     };
 
     fetch(API, options)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res;
+        }
+      })
       .then((res) => {
         alert(`New transaction added!\nTransaction ID: #${res.id}`);
         navigate("/transactions");
       })
       .catch((err) => {
-        console.error(err);
+        err.json().then((err) => {
+          alert(`Error: ${err.error}`);
+        });
       });
   };
 
   const handleChange = (event) => {
     setNewTransaction((prevState) => {
-      return { ...newTransaction, [event.target.name]: event.target.value };
+      return { ...prevState, [event.target.name]: event.target.value };
     });
   };
 
@@ -101,7 +107,7 @@ export default function Create() {
           <div className="create__form-field">
             <label htmlFor="date">Date</label>
             <input
-              type="date"
+              type="datetime-local"
               placeholder="Date"
               name="date"
               value={newTransaction.date}

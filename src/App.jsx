@@ -4,9 +4,11 @@ import Navbar from "./Components/navbar/Navbar";
 import Home from "./Pages/home/Home";
 import Show from "./Pages/show/Show";
 import Create from "./Pages/create/Create";
+
 import Edit from "./Pages/edit/Edit";
 
 import "./styles/app.scss";
+import NotFound from "./Pages/notFound/NotFound";
 
 export default function App() {
   return (
@@ -18,6 +20,7 @@ export default function App() {
         <Route path="/transactions/new" element={<Create />} />
         <Route path="/transactions/:id" element={<Show />} />
         <Route path="/transactions/:id/edit" element={<Edit />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
