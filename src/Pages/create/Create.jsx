@@ -57,7 +57,7 @@ export default function Create() {
 
   return (
     <div className="create">
-      <h1 className="create__title">Add New Transition</h1>
+      <h1 className="create__title">Add New Transaction</h1>
       <form action="" className="create__form" onSubmit={handleSubmit}>
         <fieldset>
           <legend>New Transactions</legend>
