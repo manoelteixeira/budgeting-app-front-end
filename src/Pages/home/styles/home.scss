@@ -11,6 +11,7 @@
     font-size: 40px;
     margin: 10px;
     color: $gray;
+    margin-bottom: 10px;
   }
 
   &__total {
@@ -22,37 +23,91 @@
     }
   }
 
-  &__table {
-    width: 500px;
-    border: 3px solid black;
-    border-radius: 20px;
-    text-align: center;
+  &__data {
+    width: 800px;
+    height: 660px;
+    border: 3px solid $gray;
+    padding: 50px;
+    border-radius: 25px;
     color: $gray;
 
-    thead {
-      height: 50px;
-      padding-left: 10px;
+    &__header {
+      width: 100%;
+      display: grid;
+      justify-items: center;
+      place-items: center;
+      grid-template-columns: 1fr 3fr 1fr;
       padding-right: 10px;
+
+      &-item {
+        width: 100%;
+        text-align: center;
+
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+
+        &:hover {
+          background-color: $green;
+          color: white;
+        }
+      }
     }
 
-    th {
-      border-spacing: 0;
-      padding: 0;
-      margin: 0;
-    }
+    &__body {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
 
-    td {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      text-transform: capitalize;
-    }
+      &__item {
+        width: 100%;
+        display: grid;
+        justify-items: center;
+        place-items: center;
+        grid-template-columns: 1fr 3fr 1fr;
+        padding: 5px 0;
+        margin-right: 10px;
+        border-bottom: 1px solid $gray;
+        font-size: 18px;
+        overflow-y: scroll;
 
-    a {
-      text-decoration: none;
-      color: $gray;
-    }
-    a:hover {
-      color: $green;
+        &-date {
+          width: 100%;
+          text-align: start;
+        }
+
+        &-from {
+          width: 100%;
+          text-align: center;
+          a {
+            text-decoration: none;
+            color: $gray;
+          }
+        }
+
+        &-amount {
+          padding-left: 20px;
+          width: 100%;
+          text-align: start;
+        }
+
+        &:hover {
+          color: white;
+          background-color: $green;
+
+          a {
+            color: white;
+          }
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
     }
   }
+}
+
+.sorted {
+  font-weight: bold;
 }
