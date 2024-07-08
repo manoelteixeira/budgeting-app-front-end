@@ -1,14 +1,33 @@
 // src/Pages/home/Home.jsx
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 import "./styles/home.scss";
 
 export default function Home() {
   const API = import.meta.env.VITE_BASE_URL;
+  const navigate = useNavigate();
   const [transactions, setTransactions] = useState();
   const [sortDate, setSortDate] = useState(false);
   const [sortFrom, setSortFrom] = useState(false);
   const [sortAmount, setSortAmount] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  // useEffect(() => {
+  //   const search = searchParams.get("search");
+
+  //   if (search) {
+  //     setTransactions([
+  //       ...transactions.filter(
+  //         (transaction) =>
+  //           transaction.from.toLowerCase().includes(search.toLowerCase()) ||
+  //           transaction.item_name.toLowerCase().includes(search.toLowerCase())
+  //       ),
+  //     ]);
+  //   } else {
+  //     loadTransactions();
+  //   }
+  // }, [searchParams]);
 
   const sortByDate = () => {
     const sorted = transactions.sort((a, b) => {
@@ -61,13 +80,24 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetch(API)
-      .then((res) => res.json())
-      .then((res) => {
-        setTransactions([...res]);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+    const search = searchParams.get("search");
+    if (transactions && search) {
+      setTransactions([
+        ...transactions.filter(
+          (transaction) =>
+            transaction.from.toLowerCase().includes(search.toLowerCase()) ||
+            transaction.item_name.toLowerCase().includes(search.toLowerCase())
+        ),
+      ]);
+    } else {
+      fetch(API)
+        .then((res) => res.json())
+        .then((res) => {
+          setTransactions([...res]);
+        })
+        .catch((err) => console.error(err));
+    }
+  }, [searchParams]);
 
   if (!transactions)
     return (
@@ -101,24 +131,28 @@ export default function Home() {
         <div className="home__data__body">
           {transactions.map((item) => {
             return (
-              <div key={item.id} className="home__data__body__item">
+              <div
+                key={item.id}
+                className="home__data__body__item"
+                onClick={() => navigate(`/transactions/${item.id}`)}
+              >
                 <div
                   className={`home__data__body__item-date ${
-                    sortDate && "sorted"
+                    sortDate ? "sorted" : ""
                   }`}
                 >
                   {new Date(item.date).toDateString()}
                 </div>
                 <div
-                  className={`home__data__body__item-from && ${
-                    sortFrom && "sorted"
+                  className={`home__data__body__item-from ${
+                    sortFrom ? "sorted" : ""
                   }`}
                 >
-                  <Link to={`/transactions/${item.id}`}>{item.from}</Link>
+                  {item.from}
                 </div>
                 <div
                   className={`home__data__body__item-amount ${
-                    sortAmount && "sorted"
+                    sortAmount ? "sorted" : ""
                   }`}
                 >
                   ${item.amount}
